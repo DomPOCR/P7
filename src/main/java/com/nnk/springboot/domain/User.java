@@ -8,13 +8,22 @@ import javax.validation.constraints.NotBlank;
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(columnDefinition = "TINYINT")
     private Integer id;
+
+    @Column(name="username",length = 125)
     @NotBlank(message = "Username is mandatory")
     private String username;
+
+    @Column(name="password",length = 125)
     @NotBlank(message = "Password is mandatory")
     private String password;
+
+    @Column(name="fullname",length = 125)
     @NotBlank(message = "FullName is mandatory")
     private String fullname;
+
+    @Column(name="role",length = 125)
     @NotBlank(message = "Role is mandatory")
     private String role;
 

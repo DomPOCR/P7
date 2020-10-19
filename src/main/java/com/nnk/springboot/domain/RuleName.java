@@ -8,13 +8,31 @@ import java.sql.Timestamp;
 @Table(name = "rulename")
 public class RuleName {
 
-    Integer id ;
-    String name ;
-    String description ;
-    String json ;
-    String template ;
-    String sqlStr ;
-    String sqlPart ;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "TINYINT")
+    private Integer id ;
+
+    @Column(name="name",length = 125)
+    private String name ;
+
+    @Column(name="description",length = 125)
+    private String description ;
+
+    @Column(name="json",length = 125)
+    private String json ;
+
+    @Column(name="template",length = 125)
+    private String template ;
+
+    @Column(name="sqlStr",length = 125)
+    private String sqlStr ;
+
+    @Column(name="sqlPart",length = 125)
+    private String sqlPart ;
+
+    public RuleName() {
+    }
 
     public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
     }

@@ -1,0 +1,1 @@
+select * from demoP7.bidList;

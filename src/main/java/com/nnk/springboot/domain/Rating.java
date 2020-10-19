@@ -9,12 +9,26 @@ import java.sql.Timestamp;
 @Table(name = "rating")
 public class Rating {
 
-    Integer id ;
-    String moodysRating ;
-    String sandPRating ;
-    String fitchRating ;
-    Integer orderNumber ;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "TINYINT")
+    private Integer id ;
 
+    @Column(name="moodysRating",length = 125)
+    private String moodysRating ;
+
+    @Column(name="sandPRating",length = 125)
+    private String sandPRating ;
+
+    @Column(name="fitchRating",length = 125)
+    private String fitchRating ;
+
+    @Column(name = "orderNumber", columnDefinition = "TINYINT")
+    private Integer orderNumber ;
+
+
+    public Rating() {
+    }
     public Rating(String moodysRating, String sandPRating, String fitchRating, int i) {
     }
 

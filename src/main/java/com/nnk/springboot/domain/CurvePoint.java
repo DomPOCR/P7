@@ -12,12 +12,29 @@ import java.sql.Timestamp;
 @Table(name = "curvepoint")
 public class CurvePoint {
 
-    Integer id ;
-    Integer curveId ;
-    Timestamp asOfDate ;
-    Double term ;
-    Double value ;
-    Timestamp creationDate ;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "TINYINT")
+    private Integer id ;
+
+    @Column(name="CurveId",columnDefinition = "TINYINT")
+    private Integer curveId ;
+
+    @Column(name="asOfDate")
+    private Timestamp asOfDate ;
+
+    @Column(name="term")
+    private Double term ;
+
+    @Column(name = "value")
+
+    private Double value ;
+
+    @Column(name="creationDate")
+    private Timestamp creationDate ;
+
+    public CurvePoint() {
+    }
 
     public CurvePoint(int id, double term, double value) {
     }
