@@ -1,0 +1,2 @@
+insert into demoP7.Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$c/SVxTGtaNuK0poBY7po2OEFIoxdoZCExplF6MX1OlGdfVAjDilk", "ADMIN");
+insert into demoP7.Users(fullname, username, password, role) values("User", "user", "$2a$10$CZPp9A5YySpAWW8ZflRsaezKbVuoj1K/.kVfZ0CpdkSnLMSWG5dWW", "USER");

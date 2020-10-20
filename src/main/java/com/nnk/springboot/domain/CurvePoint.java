@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 public class CurvePoint {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "TINYINT")
     private Integer id ;
 

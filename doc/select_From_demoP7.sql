@@ -1,1 +1,1 @@
-select * from demoP7.bidList;
+select * from demoP7.users;

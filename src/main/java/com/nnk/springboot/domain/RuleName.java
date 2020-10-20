@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class RuleName {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "TINYINT")
     private Integer id ;
 
