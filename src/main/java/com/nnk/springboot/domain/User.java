@@ -3,6 +3,8 @@ package com.nnk.springboot.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.nnk.springboot.config.ValidPassword;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -15,8 +17,9 @@ public class User {
     @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @Column(name="password",length = 125)
+    @Column(name = "password", length = 125)
     @NotBlank(message = "Password is mandatory")
+    @ValidPassword
     private String password;
 
     @Column(name="fullname",length = 125)

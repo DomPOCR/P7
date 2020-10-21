@@ -29,14 +29,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Autorisations avec rôles
         http.authorizeRequests()
-                //.antMatchers("/user/**","/bidList/**", "/rating/**", "/ruleName/**", "/trade/**", "/curvePoint/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/*").permitAll()
-                .antMatchers("/user/**").permitAll()
+                //.antMatchers("/bidList/**", "/rating/**", "/ruleName/**", "/trade/**", "/curvePoint/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/user/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/*").hasAnyAuthority("ADMIN", "USER")
+                //.antMatchers("/user/**").permitAll()
                 .and().formLogin()  //login configuration
                 .defaultSuccessUrl("/bidList/list")
                 .and().logout()    //logout configuration
                 .logoutUrl("/app-logout")
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                .and().exceptionHandling()
+                .accessDeniedPage("/app/error")
+                ;
+
 
     }
 
