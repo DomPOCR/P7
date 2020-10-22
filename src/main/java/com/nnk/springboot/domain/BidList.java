@@ -25,7 +25,7 @@ public class BidList {
     @Column(name="type",length = 30)
     @NotNull
     @NotBlank(message = "Type is mandatory")
-        private String type;
+    private String type;
 
     @Column(name="bidQuantity")
     @Min(1)
@@ -85,6 +85,15 @@ public class BidList {
     @Column(name="side",length = 125)
     private String side;
 
+    @Override
+    public String toString() {
+        return "BidList{" +
+                "BidListId=" + BidListId +
+                ", account='" + account + '\'' +
+                ", type='" + type + '\'' +
+                ", bidQuantity=" + bidQuantity +
+                '}';
+    }
 
     public BidList() {
     }
