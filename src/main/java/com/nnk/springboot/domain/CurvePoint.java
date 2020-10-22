@@ -3,6 +3,7 @@ package com.nnk.springboot.domain;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -18,16 +19,19 @@ public class CurvePoint {
     private Integer id ;
 
     @Column(name="CurveId",columnDefinition = "TINYINT")
+    @NotNull(message = "must be not null")
     private Integer curveId ;
 
     @Column(name="asOfDate")
     private Timestamp asOfDate ;
 
     @Column(name="term")
+    @NotNull(message = "must be not null")
     private Double term ;
 
     @Column(name = "value")
-
+    @NotNull(message = "must be not null")
+    @Min(1)
     private Double value ;
 
     @Column(name="creationDate")
@@ -37,6 +41,16 @@ public class CurvePoint {
     }
 
     public CurvePoint(int id, double term, double value) {
+    }
+
+    @Override
+    public String toString() {
+        return "CurvePoint{" +
+                "id=" + id +
+                ", curveId=" + curveId +
+                ", term=" + term +
+                ", value=" + value +
+                '}';
     }
 
     public Integer getId() {

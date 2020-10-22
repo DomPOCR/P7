@@ -61,7 +61,7 @@ public class BidListController {
     /**
      * Endpoint to validate the info of bidlist
      *
-     * @param bidlist, bidlist to be added
+     * @param bid, bidlist to be added
      * @param result   technical result
      * @param model    public interface model, model can be accessed and attributes
      *                 can be added
@@ -97,17 +97,17 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        logger.info("bidList/update : start for id :" + id);
+        logger.info("showUpdateForm start for id " + id);
         BidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
         model.addAttribute("bidlist",bidList);
+        logger.info("showUpdateForm ended for id " + id);
         return "bidList/update";
     }
 
     /**
      * Endpoint to validate the bidlist updating form
-     *
      * @param id
-     * @param bidlist the bidlist id
+     * @param bidList the bidlist id
      * @param result  technical result
      * @param model   public interface model, model can be accessed and attributes
      *                can be added
