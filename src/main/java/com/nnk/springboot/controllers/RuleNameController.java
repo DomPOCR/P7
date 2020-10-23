@@ -112,7 +112,7 @@ public class RuleNameController {
      * @param result  technical result
      * @param model   public interface model, model can be accessed and attributes
      *                can be added
-     * @return ruleName/list if ok or ruleName/update if ko
+     * @return ruleName/list if OK or ruleName/update if KO
      */
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
