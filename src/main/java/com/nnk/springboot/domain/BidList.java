@@ -1,7 +1,5 @@
 package com.nnk.springboot.domain;
 
-import org.springframework.beans.factory.annotation.Required;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +13,7 @@ public class BidList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "TINYINT")
-    private Integer BidListId;
+    private Integer bidListId;
 
     @Column(name="account",length = 30)
     @NotNull
@@ -88,7 +86,7 @@ public class BidList {
     @Override
     public String toString() {
         return "BidList{" +
-                "BidListId=" + BidListId +
+                "BidListId=" + bidListId +
                 ", account='" + account + '\'' +
                 ", type='" + type + '\'' +
                 ", bidQuantity=" + bidQuantity +
@@ -105,11 +103,11 @@ public class BidList {
     }
 
       public Integer getBidListId() {
-        return BidListId;
+        return bidListId;
     }
 
     public void setBidListId(Integer bidListId) {
-        BidListId = bidListId;
+        this.bidListId = bidListId;
     }
 
     public String getAccount() {

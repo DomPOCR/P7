@@ -99,7 +99,7 @@ public class BidListController {
 
         logger.info("showUpdateForm start for id " + id);
         BidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
-        model.addAttribute("bidlist",bidList);
+        model.addAttribute("bidList",bidList);
         logger.info("showUpdateForm ended for id " + id);
         return "bidList/update";
     }
@@ -140,7 +140,6 @@ public class BidListController {
      */
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-
 
         logger.info("bidList/delete : start for id :" + id);
         BidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));

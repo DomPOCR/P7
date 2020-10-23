@@ -40,7 +40,15 @@ public class CurvePoint {
     public CurvePoint() {
     }
 
-    public CurvePoint(int id, double term, double value) {
+    public CurvePoint(Integer id,
+                      @NotNull(message = "must be not null") Integer curveId,
+                      @NotNull(message = "must be not null") Double term,
+                      @NotNull(message = "must be not null")
+                      @Min(1) Double value) {
+        this.id = id;
+        this.curveId = curveId;
+        this.term = term;
+        this.value = value;
     }
 
     @Override
