@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS `demoP7` DEFAULT CHARACTER SET utf8 ;
 USE `demoP7` ;
 CREATE TABLE BidList (
-  BidListId tinyint(4) NOT NULL AUTO_INCREMENT,
+  bidListId tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   bidQuantity DOUBLE,
