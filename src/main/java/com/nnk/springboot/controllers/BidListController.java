@@ -50,7 +50,7 @@ public class BidListController {
      * Endpoint to display bidlist adding form
      *
      * @param bid the bidlist to be added
-     * @return
+     * @return bidList/add
      */
     @GetMapping("/bidList/add")
     public String addBidForm(BidList bid) {
