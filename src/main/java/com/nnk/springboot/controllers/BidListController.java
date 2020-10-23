@@ -145,6 +145,7 @@ public class BidListController {
         BidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
         bidListRepository.delete(bidList);
         model.addAttribute("bidLists",bidListRepository.findAll());
+
         logger.info("bidList/delete : ended for bid :" + bidList.toString());
         return "redirect:/bidList/list";
     }
