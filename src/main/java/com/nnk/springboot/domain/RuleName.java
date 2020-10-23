@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,27 +15,53 @@ public class RuleName {
     private Integer id ;
 
     @Column(name="name",length = 125)
+    @NotNull
+    @NotBlank(message = "Name is mandatory")
     private String name ;
 
     @Column(name="description",length = 125)
+    @NotNull
+    @NotBlank(message = "Description is mandatory")
     private String description ;
 
     @Column(name="json",length = 125)
+    @NotNull
+    @NotBlank(message = "Json is mandatory")
     private String json ;
 
     @Column(name="template",length = 125)
+    @NotNull
+    @NotBlank(message = "Template is mandatory")
     private String template ;
 
     @Column(name="sqlStr",length = 125)
+    @NotNull
+    @NotBlank(message = "sqlStr is mandatory")
     private String sqlStr ;
 
     @Column(name="sqlPart",length = 125)
+    @NotNull
+    @NotBlank(message = "sqlPart is mandatory")
     private String sqlPart ;
 
     public RuleName() {
     }
 
     public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+        this.name = name;
+        this.description = description;
+        this.json = json;
+        this.template = template;
+        this.sqlStr = sqlStr;
+        this.sqlPart = sqlPart;
+    }
+
+    @Override
+    public String toString() {
+        return "RuleName{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     public Integer getId() {

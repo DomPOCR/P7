@@ -1,6 +1,10 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.repositories.RuleNameRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,44 +15,141 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
+/**
+ * This controller class expose data related methods to front for the ruleName
+ * object
+ *
+ * @author DP
+ *
+ */
 @Controller
 public class RuleNameController {
-    // TODO: Inject RuleName service
 
+    private static final Logger logger = LogManager.getLogger(RuleNameController.class);
+
+    @Autowired
+    private RuleNameRepository ruleNameRepository;
+
+    /**
+     * Endpoint to show the list of ruleName
+     *
+     * @param model
+     * @return the ruleName list
+     */
     @RequestMapping("/ruleName/list")
     public String home(Model model)
     {
-        // TODO: find all RuleName, add to model
+        model.addAttribute("ruleNames", ruleNameRepository.findAll());
+        
+        logger.info("ruleName/list : OK");
         return "ruleName/list";
     }
 
+    /**
+     * Endpoint to display ruleName adding form
+     *
+     * @param ruleName the ruleName to be added
+     * @return ruleName/add
+     */
     @GetMapping("/ruleName/add")
-    public String addRuleForm(RuleName bid) {
+    public String addRuleForm(RuleName ruleName) {
+        
+        logger.info("ruleName/add : start");
         return "ruleName/add";
     }
 
+    /**
+     * Endpoint to validate the info of ruleName
+     *
+     * @param ruleName, ruleName to be added
+     * @param result   technical result
+     * @param model    public interface model, model can be accessed and attributes
+     *                 can be added
+     * @return
+     */
     @PostMapping("/ruleName/validate")
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return RuleName list
+
+        logger.info("ruleName/validate : start");
+        
+        if (!result.hasErrors()) {
+            ruleNameRepository.save(ruleName);
+            model.addAttribute("ruleName", ruleNameRepository.findAll());
+            logger.info("ruleName/validate : ended for ruleName : "+ ruleName.toString());
+            return "redirect:/ruleName/list";
+        }
+        
+        logger.info("ruleName/validate : error for ruleName : "+ ruleName.toString());
         return "ruleName/add";
     }
 
+    /**
+     * Endpoint to display updating form
+     *
+     * @param id    the ruleName id
+     * @param model public interface model, model can be accessed and attributes can
+     *              be added
+     * @return ruleName/update if OK
+     */
     @GetMapping("/ruleName/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get RuleName by Id and to model then show to the form
+
+        logger.info("showUpdateForm start for id " + id);
+        
+        RuleName ruleName = ruleNameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ruleName Id:" + id));
+        model.addAttribute("ruleName", ruleName);
+        
+        logger.info("showUpdateForm ended for id " + id);
         return "ruleName/update";
     }
 
+    /**
+     * Endpoint to validate the ruleName updating form
+     *
+     * @param id
+     * @param ruleName the ruleName id
+     * @param result  technical result
+     * @param model   public interface model, model can be accessed and attributes
+     *                can be added
+     * @return ruleName/list if ok or ruleName/update if ko
+     */
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update RuleName and return RuleName list
+
+        logger.info("updateRating start for id " + id);
+
+        if (result.hasErrors()) {
+            logger.info("ruleName/update : error for id : "+ id);
+            return "ruleName/update";
+        }
+        ruleNameRepository.save(ruleName);
+        model.addAttribute("ruleNames", ruleNameRepository.findAll());
+
+        logger.info("ruleName/update : ended for bid :" + ruleName.toString());
         return "redirect:/ruleName/list";
     }
 
+    /**
+     * Endpoint to delete a ruleName
+     *
+     * @param id    the ruleName id to delete
+     * @param model public interface model, model can be accessed and attributes can
+     *              be added
+     * @return ruleName/list if ok
+     */
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find RuleName by Id and delete the RuleName, return to Rule list
+
+        logger.info("ruleName/delete : start for id :" + id);
+        
+        RuleName ruleName = ruleNameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ruleName Id:" + id));
+        ruleNameRepository.delete(ruleName);
+        model.addAttribute("ruleNames", ruleNameRepository.findAll());
+
+        logger.info("ruleName/delete : ended for bid :" + ruleName.toString());
         return "redirect:/ruleName/list";
     }
 }
