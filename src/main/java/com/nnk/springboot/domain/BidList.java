@@ -26,6 +26,7 @@ public class BidList {
     private String type;
 
     @Column(name="bidQuantity")
+    @NotNull
     @Min(1)
     private Double bidQuantity;
 

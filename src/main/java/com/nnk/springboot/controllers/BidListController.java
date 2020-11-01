@@ -116,14 +116,18 @@ public class BidListController {
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Bid and return list Bid : KO
+
+        bidList.setBidListId(id);
+
         if (result.hasErrors()){
-            logger.info("bidList/update : error for id : "+ id);
+            String error = result.getFieldErrors().get(0).getDefaultMessage();
+            String field = result.getFieldErrors().get(0).getField();
+            logger.info("bidList/update : error for bidlist : "+ bidList.toString() + " : " + field + " " + error);
             return "bidList/update";
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         bidList.setRevisionDate(timestamp);
-        bidList.setBidListId(id);
+
         bidListRepository.save(bidList);
         model.addAttribute("bidLists",bidListRepository.findAll());
         logger.info("bidList/update : ended for bid :" + bidList.toString());

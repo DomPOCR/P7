@@ -19,11 +19,11 @@
 			  style="width: 100%">
 
 				<div class="form-group">
-					<label for="curveId" class="col-sm-2 control-label required">Curvepoint
+					<label for="curveId" class="col-sm-2 control-label">Curvepoint
 						Id</label>
 					<div class="col-sm-10">
 						<input type="number" th:field="*{curveId}" id="curveId"
-							   placeholder="curveId" class="col-4 input-field" required>
+							   placeholder="curveId" class="col-4 input-field">
 						<p class="text-danger" th:if="${#fields.hasErrors('curveId')}"
 						   th:errors="*{curveId}"></p>
 					</div>
