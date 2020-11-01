@@ -27,10 +27,12 @@ public class Trade {
     private String type;
 
     @Column(name="buyQuantity")
+    @NotNull
     @Min(1)
     private Double buyQuantity;
 
     @Column(name="sellQuantity")
+    @NotNull
     @Min(1)
     private Double sellQuantity;
 
@@ -77,6 +79,8 @@ public class Trade {
         return "Trade{" +
                 "tradeId=" + tradeId +
                 ", account='" + account + '\'' +
+                ", buyQuantity=" + buyQuantity +
+                ", sellQuantity=" + sellQuantity +
                 '}';
     }
 

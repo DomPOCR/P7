@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
-import java.util.List;
+
 
 /**
  * This controller class expose data related methods to front for the trade
@@ -32,7 +32,7 @@ public class TradeController {
 
     @Autowired
     private TradeRepository tradeRepository;
-    private List<FieldError> list;
+
 
     /**
      * End to show the list of Trade
@@ -85,7 +85,9 @@ public class TradeController {
             logger.info("trade/validate : ended for trade : "+ trade.toString());
             return "redirect:/trade/list";
         }
-        logger.info("trade/validate : error for trade : "+ trade.toString());
+        String error = result.getFieldErrors().get(0).getDefaultMessage();
+        String field = result.getFieldErrors().get(0).getField();
+        logger.info("trade/validate : error for trade : "+ trade.toString() + " " + field + " " + error);
         return "trade/add";
     }
 
@@ -123,13 +125,14 @@ public class TradeController {
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
                              BindingResult result, Model model) {
 
+        trade.setTradeId(id);
+
         if (result.hasErrors()) {
             String error = result.getFieldErrors().get(0).getDefaultMessage();
             String field = result.getFieldErrors().get(0).getField();
-            logger.info("trade/update : error for id : "+ id + " : " + field + " " + error);
+            logger.info("trade/update : error for trade : "+ trade.toString() + " : " + field + " " + error);
             return "trade/update";
         }
-        trade.setTradeId(id);
         tradeRepository.save(trade);
         model.addAttribute("trade", tradeRepository.findAll());
 
