@@ -1,6 +1,7 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -26,9 +27,15 @@ public class Trade {
     private String type;
 
     @Column(name="buyQuantity")
+    @NotNull
+    @Min(1)
     private Double buyQuantity;
+
     @Column(name="sellQuantity")
+    @NotNull
+    @Min(1)
     private Double sellQuantity;
+
     @Column(name="buyPrice")
     private Double buyPrice;
     @Column(name="sellPrice")
@@ -65,6 +72,16 @@ public class Trade {
     public Trade() {
     }
     public Trade(String account, String type) {
+    }
+
+    @Override
+    public String toString() {
+        return "Trade{" +
+                "tradeId=" + tradeId +
+                ", account='" + account + '\'' +
+                ", buyQuantity=" + buyQuantity +
+                ", sellQuantity=" + sellQuantity +
+                '}';
     }
 
     public Integer getTradeId() {
