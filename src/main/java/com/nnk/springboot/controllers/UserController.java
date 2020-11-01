@@ -107,17 +107,21 @@ public class UserController {
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
                              BindingResult result, Model model) {
 
+        user.setId(id);
+
         if (result.hasErrors()) {
-            logger.info("user/update error for id : "+ id);
+            String error = result.getFieldErrors().get(0).getDefaultMessage();
+            String field = result.getFieldErrors().get(0).getField();
+            logger.info("trade/update : error for user : "+ user.toString() + " : " + field + " " + error);
             return "user/update";
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setId(id);
+
         userRepository.save(user);
         model.addAttribute("users", userRepository.findAll());
-        logger.info("user//update : ended for curve point :" + user.toString());
+        logger.info("user//update : ended for user :" + user.toString());
         return "redirect:/user/list";
     }
 
@@ -130,7 +134,7 @@ public class UserController {
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
 
-        logger.info("deleteuser start for id " + id);
+        logger.info("delete user start for id " + id);
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userRepository.delete(user);
         model.addAttribute("users", userRepository.findAll());

@@ -116,11 +116,15 @@ public class CurveController {
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
 
+        curvePoint.setCurveId(id);
+
         if (result.hasErrors()) {
-            logger.info("curvePoint/update error for id : "+ id);
+            String error = result.getFieldErrors().get(0).getDefaultMessage();
+            String field = result.getFieldErrors().get(0).getField();
+            logger.info("curvePoint/update error for curve point : "+curvePoint.toString() + " : " + field + " " + error);
             return "curvePoint/update";
         }
-        curvePoint.setCurveId(id);
+
         curvePointRepository.save(curvePoint);
         model.addAttribute("curvePoint", curvePointRepository.findAll());
         logger.info("curvePoint//update : ended for curve point :" + curvePoint.toString());

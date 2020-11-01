@@ -112,14 +112,18 @@ public class RatingController {
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
                              BindingResult result, Model model) {
 
+        rating.setId(id);
+
         if (result.hasErrors()) {
-            logger.info("rating/update : error for id : "+ id);
+            String error = result.getFieldErrors().get(0).getDefaultMessage();
+            String field = result.getFieldErrors().get(0).getField();
+            logger.info("trade/update : error for rating : "+ rating.toString() + " : " + field + " " + error);
             return "rating/update";
         }
-        rating.setId(id);
+
         ratingRepository.save(rating);
         model.addAttribute("rating", ratingRepository.findAll());
-        logger.info("rating/update : ended for bid :" + rating.toString());
+        logger.info("rating/update : ended for rating :" + rating.toString());
         return "redirect:/rating/list";
     }
     
@@ -138,7 +142,7 @@ public class RatingController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid rating Id:" + id));
         ratingRepository.delete(rating);
         model.addAttribute("ratings", ratingRepository.findAll());
-        logger.info("rating/delete : ended for bid :" + rating.toString());
+        logger.info("rating/delete : ended for rating :" + rating.toString());
         return "redirect:/rating/list";
     }
 }

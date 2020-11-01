@@ -120,14 +120,19 @@ public class RuleNameController {
 
         logger.info("updateRating start for id " + id);
 
+        ruleName.setId(id);
+
         if (result.hasErrors()) {
+            String error = result.getFieldErrors().get(0).getDefaultMessage();
+            String field = result.getFieldErrors().get(0).getField();
+            logger.info("curvePoint/update error for rule name : "+ ruleName.toString() + " : " + field + " " + error);
             logger.info("ruleName/update : error for id : "+ id);
             return "ruleName/update";
         }
         ruleNameRepository.save(ruleName);
         model.addAttribute("ruleNames", ruleNameRepository.findAll());
 
-        logger.info("ruleName/update : ended for bid :" + ruleName.toString());
+        logger.info("ruleName/update : ended for rule name :" + ruleName.toString());
         return "redirect:/ruleName/list";
     }
 
@@ -149,7 +154,7 @@ public class RuleNameController {
         ruleNameRepository.delete(ruleName);
         model.addAttribute("ruleNames", ruleNameRepository.findAll());
 
-        logger.info("ruleName/delete : ended for bid :" + ruleName.toString());
+        logger.info("ruleName/delete : ended for rule name :" + ruleName.toString());
         return "redirect:/ruleName/list";
     }
 }
