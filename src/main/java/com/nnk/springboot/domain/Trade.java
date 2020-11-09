@@ -71,7 +71,15 @@ public class Trade {
 
     public Trade() {
     }
-    public Trade(String account, String type) {
+
+    public Trade(@NotNull @NotBlank(message = "Trade is mandatory") String account,
+                 @NotNull @NotBlank(message = "Type is mandatory") String type,
+                 @NotNull @Min(1) Double buyQuantity,
+                 @NotNull @Min(1) Double sellQuantity) {
+        this.account = account;
+        this.type = type;
+        this.buyQuantity = buyQuantity;
+        this.sellQuantity = sellQuantity;
     }
 
     @Override

@@ -221,11 +221,11 @@
 					<!-- Sets the VM argument line used when unit tests are run. -->
 					<!--suppress UnresolvedMavenProperty -->
 					<argLine>${surefireArgLine}</argLine>
-					<!-- exclusion des classes suffixées IT qui correspondent à des tests
+					<!-- exclusion des classes suffixées com.nnk.springboot.IT qui correspondent à des tests
                         d'intégration -->
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
-						<exclude>**/*IT.java</exclude>
+						<exclude>**/*com.nnk.springboot.IT.java</exclude>
 						<exclude>*com/opc/paymybuddy/model/**/*</exclude>
 						<exclude>*com/opc/paymybuddy/dto/**/*</exclude>
 						<exclude>*com/opc/paymybuddy/config/**/*</exclude>
@@ -317,7 +317,7 @@
 							</excludes>
 						</configuration>
 					</execution>
-					<!-- Merge UT et IT -->
+					<!-- Merge UT et com.nnk.springboot.IT -->
 					<execution>
 						<id>merge-unit-and-integration</id>
 						<phase>post-integration-test</phase>
