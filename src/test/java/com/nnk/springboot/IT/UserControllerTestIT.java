@@ -1,70 +1,125 @@
 package com.nnk.springboot.IT;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import com.fasterxml.jackson.databind.node.TextNode;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
+/*import org.springframework.security.core.userdetails.User; */
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) /*désactive tous les filtres dans la configuration SpringSecurity */
 class UserControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private UserRepository userRepository;
 
-    private User user;
-
-    // Constants of test
-
-    String username = "usernameTest";
-    String password = "Password1@";
-    String fullname = "fullnameTest";
-    String role = "USER";
+// Todo : un get et un post en IT pour chaque produit
 
     @Test
-    void listUser() throws Exception{
+    void addUser_ValidateUser() throws Exception{
 
-    }
-
-    @Test
-    void addUser() throws Exception{
-
-        ObjectMapper obm = new ObjectMapper();
-        ObjectNode jsonUser = obm.createObjectNode();
+        List<User> userListBeforeAdd = new ArrayList<>();
+        userListBeforeAdd = userRepository.findAll();
 
         //GIVEN
-        jsonUser.set("username", TextNode.valueOf(username));
-        jsonUser.set("password", TextNode.valueOf(password));
-        jsonUser.set("fullname", TextNode.valueOf(fullname));
-        jsonUser.set("role", TextNode.valueOf(role));
+        String username = "usernameTest";
+        String password = "Password1@";
+        String fullname = "fullnameTest";
+        String role = "USER";
 
         // WHEN
         // THEN
         mockMvc.perform(MockMvcRequestBuilders.post("/user/validate")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonUser.toString())
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .param("fullname", fullname).param("username", username)
+                .param("password", password).param("role", role))
                 .andDo(print())
                 .andExpect(view().name("redirect:/user/list"));
+
+        List<User> userListAfterAdd = new ArrayList<>();
+        userListAfterAdd = userRepository.findAll();
+
+        assertEquals(userListAfterAdd.size(),userListBeforeAdd.size()+1);
     }
 
+    @Test
+    void deleteUser_ExistingUser() throws Exception{
 
+        List<User> userListBeforeDelete = new ArrayList<>();
+        userListBeforeDelete = userRepository.findAll();
+
+        //GIVEN
+        String username = "usernameTest";
+        String password = "Password1@";
+        String fullname = "fullnameTest";
+        String role = "USER";
+
+        // WHEN
+        // THEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/delete/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("fullname", fullname).param("username", username)
+                .param("password", password).param("role", role))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/user/list"));
+
+        List<User> userListAfterDelete = new ArrayList<>();
+        userListAfterDelete = userRepository.findAll();
+
+        assertEquals(userListAfterDelete.size(),userListBeforeDelete.size()-1);
+    }
+
+    @Test
+    void deleteUser_Non_ExistingUser() throws Exception{
+
+        List<User> userListBeforeDelete = new ArrayList<>();
+        userListBeforeDelete = userRepository.findAll();
+
+        //GIVEN
+        String username = "usernameTest";
+        String password = "Password1@";
+        String fullname = "fullnameTest";
+        String role = "USER";
+
+        // WHEN
+        // THEN
+        try {
+
+            mockMvc.perform(MockMvcRequestBuilders.get("/user/delete/999")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .param("fullname", fullname).param("username", username)
+                    .param("password", password).param("role", role))
+                    .andDo(print())
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:/user/list"));
+        } catch (Exception e) {
+            assertTrue(e.getMessage().contains("Invalid user Id:999"));
+        }
+        List<User> userListAfterDelete = new ArrayList<>();
+        userListAfterDelete = userRepository.findAll();
+
+        assertEquals(userListAfterDelete.size(),userListBeforeDelete.size());
+    }
 }
