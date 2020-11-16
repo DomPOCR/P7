@@ -31,12 +31,10 @@ class UserControllerTestIT {
     @Autowired
     private UserRepository userRepository;
 
-// Todo : un get et un post en IT pour chaque produit
-
     @Test
     void addUser_ValidateUser() throws Exception{
 
-        List<User> userListBeforeAdd = new ArrayList<>();
+        List<User> userListBeforeAdd;
         userListBeforeAdd = userRepository.findAll();
 
         //GIVEN
@@ -55,7 +53,7 @@ class UserControllerTestIT {
                 .andDo(print())
                 .andExpect(view().name("redirect:/user/list"));
 
-        List<User> userListAfterAdd = new ArrayList<>();
+        List<User> userListAfterAdd;
         userListAfterAdd = userRepository.findAll();
 
         assertEquals(userListAfterAdd.size(),userListBeforeAdd.size()+1);
@@ -64,7 +62,7 @@ class UserControllerTestIT {
     @Test
     void deleteUser_ExistingUser() throws Exception{
 
-        List<User> userListBeforeDelete = new ArrayList<>();
+        List<User> userListBeforeDelete;
         userListBeforeDelete = userRepository.findAll();
 
         //GIVEN
@@ -84,7 +82,7 @@ class UserControllerTestIT {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/user/list"));
 
-        List<User> userListAfterDelete = new ArrayList<>();
+        List<User> userListAfterDelete;
         userListAfterDelete = userRepository.findAll();
 
         assertEquals(userListAfterDelete.size(),userListBeforeDelete.size()-1);
@@ -117,7 +115,7 @@ class UserControllerTestIT {
         } catch (Exception e) {
             assertTrue(e.getMessage().contains("Invalid user Id:999"));
         }
-        List<User> userListAfterDelete = new ArrayList<>();
+        List<User> userListAfterDelete;
         userListAfterDelete = userRepository.findAll();
 
         assertEquals(userListAfterDelete.size(),userListBeforeDelete.size());
