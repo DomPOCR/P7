@@ -1,6 +1,6 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.bidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,7 +53,7 @@ public class BidListController {
      * @return bidList/add
      */
     @GetMapping("/bidList/add")
-    public String addBidForm(BidList bid) {
+    public String addBidForm(bidList bid) {
         logger.info("bidList/add : start");
         return "bidList/add";
     }
@@ -68,7 +68,7 @@ public class BidListController {
      * @return
      */
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidList bid, BindingResult result, Model model) {
+    public String validate(@Valid bidList bid, BindingResult result, Model model) {
 
         logger.info("bidList/validate : start");
         if (!result.hasErrors()){
@@ -98,7 +98,7 @@ public class BidListController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
         logger.info("showUpdateForm start for id " + id);
-        BidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
+        bidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
         model.addAttribute("bidList",bidList);
         logger.info("showUpdateForm ended for id " + id);
         return "bidList/update";
@@ -114,7 +114,7 @@ public class BidListController {
      * @return bidlist/list if ok or bidlist/update if ko
      */
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
+    public String updateBid(@PathVariable("id") Integer id, @Valid bidList bidList,
                              BindingResult result, Model model) {
 
         bidList.setBidListId(id);
@@ -146,7 +146,7 @@ public class BidListController {
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
         logger.info("bidList/delete : start for id :" + id);
-        BidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
+        bidList bidList = bidListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
         bidListRepository.delete(bidList);
         model.addAttribute("bidLists",bidListRepository.findAll());
 

@@ -40,6 +40,9 @@ public class CurvePoint {
     public CurvePoint() {
     }
 
+    public CurvePoint(Integer curveId, Double term, Double value) {
+    }
+
     public CurvePoint(Integer id,
                       @NotNull(message = "must be not null") Integer curveId,
                       @NotNull(message = "must be not null") Double term,

@@ -1,6 +1,5 @@
 package com.nnk.springboot.UT;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-public class UserTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,19 +33,13 @@ public class UserTest {
     @MockBean
     private UserRepository userRepository;
 
+    // Données de test
+
     String username = "usernameTest";
     String password = "Password1@";
-    String badPassword = "password1@";
     String fullname = "fullnameTest";
     String role = "USER";
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     /* Show the list of user */
     @Test
@@ -54,7 +47,7 @@ public class UserTest {
 
         List<User> userList = new ArrayList<>();
 
-        //GIVEN : Give an exiting Person
+        //GIVEN
         User userTest = new User(username,password,fullname,role);
         userList.add(userTest);
         Mockito.when(userRepository.findAll()).thenReturn(userList);
@@ -102,6 +95,7 @@ public class UserTest {
                 .andExpect(view().name("redirect:/user/list"))
                 .andExpect(status().is3xxRedirection());
     }
+
 
     /* Display user updating form */
     @Test
