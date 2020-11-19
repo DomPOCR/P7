@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.IT.Repository;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RuleTests {
+public class RuleNameRepositoryTestIT {
 
 	@Autowired
 	private RuleNameRepository ruleNameRepository;

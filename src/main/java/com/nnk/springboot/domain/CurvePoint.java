@@ -1,10 +1,7 @@
 package com.nnk.springboot.domain;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -31,7 +28,7 @@ public class CurvePoint {
 
     @Column(name = "value")
     @NotNull(message = "must be not null")
-    @Min(1)
+    @Min(value=1, message = "must be greater than or equal to 1")
     private Double value ;
 
     @Column(name="creationDate")
@@ -40,14 +37,20 @@ public class CurvePoint {
     public CurvePoint() {
     }
 
-    public CurvePoint(Integer curveId, Double term, Double value) {
+    public CurvePoint(@NotNull(message = "must be not null") Integer curveId,
+                      @NotNull(message = "must be not null") Double term,
+                      @NotNull(message = "must be not null")
+                      @Min(value = 1, message = "must be greater than or equal to 1") Double value) {
+        this.curveId = curveId;
+        this.term = term;
+        this.value = value;
     }
 
     public CurvePoint(Integer id,
                       @NotNull(message = "must be not null") Integer curveId,
                       @NotNull(message = "must be not null") Double term,
                       @NotNull(message = "must be not null")
-                      @Min(1) Double value) {
+                      @Min(value = 1, message = "must be greater than or equal to 1") Double value) {
         this.id = id;
         this.curveId = curveId;
         this.term = term;
@@ -87,6 +90,7 @@ public class CurvePoint {
     public void setAsOfDate(Timestamp asOfDate) {
         this.asOfDate = asOfDate;
     }
+
 
     public Double getTerm() {
         return term;

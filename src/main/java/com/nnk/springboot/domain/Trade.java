@@ -28,12 +28,12 @@ public class Trade {
 
     @Column(name="buyQuantity")
     @NotNull
-    @Min(1)
+    @Min(value = 1, message = "must be greater than or equal to 1")
     private Double buyQuantity;
 
     @Column(name="sellQuantity")
     @NotNull
-    @Min(1)
+    @Min(value = 1, message = "must be greater than or equal to 1")
     private Double sellQuantity;
 
     @Column(name="buyPrice")
@@ -74,8 +74,8 @@ public class Trade {
 
     public Trade(@NotNull @NotBlank(message = "Trade is mandatory") String account,
                  @NotNull @NotBlank(message = "Type is mandatory") String type,
-                 @NotNull @Min(1) Double buyQuantity,
-                 @NotNull @Min(1) Double sellQuantity) {
+                 @NotNull @Min(value = 1, message = "must be greater than or equal to 1") Double buyQuantity,
+                 @NotNull @Min(value = 1, message = "must be greater than or equal to 1") Double sellQuantity) {
         this.account = account;
         this.type = type;
         this.buyQuantity = buyQuantity;

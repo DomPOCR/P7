@@ -27,7 +27,7 @@ public class bidList {
 
     @Column(name="bidQuantity")
     @NotNull
-    @Min(1)
+    @Min(value=1,message = "must be greater than or equal to 1")
     private Double bidQuantity;
 
     @Column(name="askQuantity")
@@ -97,13 +97,25 @@ public class bidList {
     public bidList() {
     }
 
-    public bidList(String account, String type, Double bidQuantity) {
+    public bidList(@NotNull @NotBlank(message = "Account is mandatory") String account,
+                   @NotNull @NotBlank(message = "Type is mandatory") String type,
+                   @NotNull @Min(value = 1, message = "must be greater than or equal to 1") Double bidQuantity) {
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;
     }
 
-      public Integer getBidListId() {
+    public bidList(Integer bidListId,
+                   @NotNull @NotBlank(message = "Account is mandatory") String account,
+                   @NotNull @NotBlank(message = "Type is mandatory") String type,
+                   @NotNull @Min(value = 1, message = "must be greater than or equal to 1") Double bidQuantity) {
+        this.bidListId = bidListId;
+        this.account = account;
+        this.type = type;
+        this.bidQuantity = bidQuantity;
+    }
+
+    public Integer getBidListId() {
         return bidListId;
     }
 

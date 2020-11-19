@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.IT.Repository;
 
 import com.nnk.springboot.domain.bidList;
 import com.nnk.springboot.repositories.BidListRepository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BidTests {
+public class BidListRepositoryTestIT {
 
 	@Autowired
 	private BidListRepository bidListRepository;

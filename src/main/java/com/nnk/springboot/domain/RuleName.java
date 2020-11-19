@@ -56,6 +56,22 @@ public class RuleName {
         this.sqlPart = sqlPart;
     }
 
+    public RuleName(Integer id,
+                    @NotNull @NotBlank(message = "Name is mandatory") String name,
+                    @NotNull @NotBlank(message = "Description is mandatory") String description,
+                    @NotNull @NotBlank(message = "Json is mandatory") String json,
+                    @NotNull @NotBlank(message = "Template is mandatory") String template,
+                    @NotNull @NotBlank(message = "sqlStr is mandatory") String sqlStr,
+                    @NotNull @NotBlank(message = "sqlPart is mandatory") String sqlPart) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.json = json;
+        this.template = template;
+        this.sqlStr = sqlStr;
+        this.sqlPart = sqlPart;
+    }
+
     @Override
     public String toString() {
         return "RuleName{" +

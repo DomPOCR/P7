@@ -96,7 +96,6 @@ public class UserControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
-
     /* Display user updating form */
     @Test
     void updateUser_UserIsReturn() throws Exception{

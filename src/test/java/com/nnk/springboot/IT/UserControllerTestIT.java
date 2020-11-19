@@ -36,6 +36,7 @@ class UserControllerTestIT {
     @Autowired
     private UserRepository userRepository;
 
+    /* Add validate user */
     @Test
     void addUser_ValidateUser() throws Exception{
 
@@ -53,8 +54,10 @@ class UserControllerTestIT {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/validate")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("fullname", fullname).param("username", username)
-                .param("password", password).param("role", role))
+                .param("fullname", fullname)
+                .param("username", username)
+                .param("password", password)
+                .param("role", role))
                 .andDo(print())
                 .andExpect(view().name("redirect:/user/list"));
 
@@ -116,8 +119,10 @@ class UserControllerTestIT {
         mockMvc.perform(MockMvcRequestBuilders.get("/user/delete/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("fullname", fullname).param("username", username)
-                .param("password", password).param("role", role))
+                .param("fullname", fullname)
+                .param("username", username)
+                .param("password", password)
+                .param("role", role))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/user/list"));
@@ -135,20 +140,12 @@ class UserControllerTestIT {
         userListBeforeDelete = userRepository.findAll();
 
         //GIVEN
-        String username = "usernameTest";
-        String password = "Password1@";
-        String fullname = "fullnameTest";
-        String role = "USER";
-
         // WHEN
         // THEN
         try {
-
             mockMvc.perform(MockMvcRequestBuilders.get("/user/delete/999")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .param("fullname", fullname).param("username", username)
-                    .param("password", password).param("role", role))
+                    .accept(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:/user/list"));
