@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "bidlist")
-public class bidList {
+public class BidList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,10 +94,10 @@ public class bidList {
                 '}';
     }
 
-    public bidList() {
+    public BidList() {
     }
 
-    public bidList(@NotNull @NotBlank(message = "Account is mandatory") String account,
+    public BidList(@NotNull @NotBlank(message = "Account is mandatory") String account,
                    @NotNull @NotBlank(message = "Type is mandatory") String type,
                    @NotNull @Min(value = 1, message = "must be greater than or equal to 1") Double bidQuantity) {
         this.account = account;
@@ -105,7 +105,7 @@ public class bidList {
         this.bidQuantity = bidQuantity;
     }
 
-    public bidList(Integer bidListId,
+    public BidList(Integer bidListId,
                    @NotNull @NotBlank(message = "Account is mandatory") String account,
                    @NotNull @NotBlank(message = "Type is mandatory") String type,
                    @NotNull @Min(value = 1, message = "must be greater than or equal to 1") Double bidQuantity) {
@@ -180,11 +180,13 @@ public class bidList {
     }
 
     public Timestamp getBidListDate() {
-        return bidListDate;
+        //return bidListDate;
+        return new Timestamp(bidListDate.getTime());
     }
 
     public void setBidListDate(Timestamp bidListDate) {
-        this.bidListDate = bidListDate;
+        //this.bidListDate = bidListDate;
+        this.bidListDate = new Timestamp(bidListDate.getTime());
     }
 
     public String getCommentary() {

@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
@@ -33,7 +35,7 @@ class RuleNameControllerTestIT {
 
     /* Add validate ruleName */
     @Test
-    void addRuleName_ValidateRuleName() throws Exception{
+    void addRuleName_ValidateRuleName() throws Exception {
 
         List<RuleName> ruleNamesBeforeAdd;
         ruleNamesBeforeAdd = ruleNameRepository.findAll();
@@ -56,25 +58,25 @@ class RuleNameControllerTestIT {
                 .param("json", json)
                 .param("template", template)
                 .param("sqlStr", sqlStr)
-                .param("sqlPart",sqlPart))
+                .param("sqlPart", sqlPart))
                 .andDo(print())
                 .andExpect(view().name("redirect:/ruleName/list"));
 
         List<RuleName> ruleNamesAfterAdd;
         ruleNamesAfterAdd = ruleNameRepository.findAll();
 
-        assertEquals(ruleNamesAfterAdd.size(),ruleNamesBeforeAdd.size()+1);
+        assertEquals(ruleNamesAfterAdd.size(), ruleNamesBeforeAdd.size() + 1);
     }
 
     /* Validate non compliant RuleName */
     @Test
-    void validateRuleName_NonCompliant_RuleName() throws Exception{
+    void validateRuleName_NonCompliant_RuleName() throws Exception {
 
         List<RuleName> ruleNamesBeforeAdd;
         ruleNamesBeforeAdd = ruleNameRepository.findAll();
 
         //GIVEN
-        Integer id = 1;
+
         String name = "";
         String description = "DescriptionTest";
         String json = "JsonTest";
@@ -82,34 +84,32 @@ class RuleNameControllerTestIT {
         String sqlStr = "SqlStr";
         String sqlPart = "SqlPart";
 
-        RuleName ruleNameTest = new RuleName(id,name,description,json,template,sqlStr,sqlPart);
-
         //WHEN //THEN stay to add page
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/ruleName/validate")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .param("name", name)
-                    .param("description", description)
-                    .param("json", json)
-                    .param("template", template)
-                    .param("sqlStr", sqlStr)
-                    .param("sqlPart",sqlPart))
-                    .andDo(print())
-                    .andExpect(view().name("ruleName/add"));
-            ruleNameRepository.save(ruleNameTest);
-        }
-        catch (Exception e){
-            assertTrue(e.getMessage().contains("Name is mandatory"));
-        }
+
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/ruleName/validate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("name", name)
+                .param("description", description)
+                .param("json", json)
+                .param("template", template)
+                .param("sqlStr", sqlStr)
+                .param("sqlPart", sqlPart))
+                .andDo(print())
+                .andExpect(view().name("ruleName/add"));
+
+        MvcResult mvcResult = result.andExpect(status().isOk()).andReturn();
+        String htmlResponse = mvcResult.getResponse().getContentAsString();
+        assertTrue(htmlResponse.contains("Name is mandatory"));
+
         List<RuleName> ruleNamesAfterAdd;
         ruleNamesAfterAdd = ruleNameRepository.findAll();
 
-        assertEquals(ruleNamesAfterAdd.size(),ruleNamesBeforeAdd.size());
+        assertEquals(ruleNamesAfterAdd.size(), ruleNamesBeforeAdd.size());
     }
 
     @Test
-    void deleteRuleName_ExistingRuleName() throws Exception{
+    void deleteRuleName_ExistingRuleName() throws Exception {
 
         Integer id = 1;
         String name = "NameTest";
@@ -120,7 +120,7 @@ class RuleNameControllerTestIT {
         String sqlPart = "SqlPart";
 
         //GIVEN
-        RuleName ruleNameTest = new RuleName(id,name,description,json,template,sqlStr,sqlPart);
+        RuleName ruleNameTest = new RuleName(id, name, description, json, template, sqlStr, sqlPart);
         ruleNameRepository.save(ruleNameTest);
 
         List<RuleName> ruleNamesBeforeDelete;
@@ -138,13 +138,13 @@ class RuleNameControllerTestIT {
         List<RuleName> ruleNamesAfterDelete;
         ruleNamesAfterDelete = ruleNameRepository.findAll();
 
-        assertEquals(ruleNamesAfterDelete.size(),ruleNamesBeforeDelete.size()-1);
+        assertEquals(ruleNamesAfterDelete.size(), ruleNamesBeforeDelete.size() - 1);
     }
 
     /*------------------------------ Post ------------------------------*/
 
     @Test
-    void deleteRuleName_Non_ExistingRuleName() throws Exception{
+    void deleteRuleName_Non_ExistingRuleName() throws Exception {
 
         Integer id = 1;
         String name = "NameTest";
@@ -155,7 +155,7 @@ class RuleNameControllerTestIT {
         String sqlPart = "SqlPart";
 
         //GIVEN
-        RuleName ruleNameTest = new RuleName(id,name,description,json,template,sqlStr,sqlPart);
+        RuleName ruleNameTest = new RuleName(id, name, description, json, template, sqlStr, sqlPart);
         ruleNameRepository.save(ruleNameTest);
 
         List<RuleName> ruleNamesBeforeDelete;
@@ -176,6 +176,6 @@ class RuleNameControllerTestIT {
         List<RuleName> ruleNamesAfterDelete;
         ruleNamesAfterDelete = ruleNameRepository.findAll();
 
-        assertEquals(ruleNamesAfterDelete.size(),ruleNamesBeforeDelete.size());
+        assertEquals(ruleNamesAfterDelete.size(), ruleNamesBeforeDelete.size());
     }
 }

@@ -1,6 +1,6 @@
 package com.nnk.springboot.IT;
 
-import com.nnk.springboot.domain.bidList;
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
@@ -34,7 +36,7 @@ class BidListControllerTestIT {
     @Test
     void addBidList_ValidateBidList() throws Exception{
 
-        List<bidList> bidListsBeforeAdd;
+        List<BidList> bidListsBeforeAdd;
         bidListsBeforeAdd = bidListRepository.findAll();
 
         //GIVEN
@@ -53,7 +55,7 @@ class BidListControllerTestIT {
                 .andDo(print())
                 .andExpect(view().name("redirect:/bidList/list"));
 
-        List<bidList> bidListsAfterAdd;
+        List<BidList> bidListsAfterAdd;
         bidListsAfterAdd = bidListRepository.findAll();
 
         assertEquals(bidListsAfterAdd.size(),bidListsBeforeAdd.size()+1);
@@ -63,33 +65,31 @@ class BidListControllerTestIT {
     @Test
     void validateBidList_NonCompliant_bidQuantity() throws Exception{
 
-        List<bidList> bidListsBeforeAdd;
+        List<BidList> bidListsBeforeAdd;
         bidListsBeforeAdd = bidListRepository.findAll();
 
+        //GIVEN
         Integer bidListId = 1;
         String account = "AccountTest";
         String type = "TypeTest";
         Double bidQuantity = 0d;    /* Must be >=1 */
 
-        //GIVEN
-        bidList bidListTest = new bidList(bidListId,account,type,bidQuantity);
-
         //WHEN //THEN stay to add page
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/bidList/validate")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .param("account", account)
-                    .param("type", type)
-                    .param("bidQuantity", String.valueOf(bidQuantity)))
-                    .andDo(print())
-                    .andExpect(view().name("bidList/add"));
-            bidListRepository.save(bidListTest);
-        }
-        catch (Exception e){
-             assertTrue(e.getMessage().contains("must be greater than or equal to 1"));
-        }
-        List<bidList> bidListsAfterAdd;
+        ResultActions result =
+                    mockMvc.perform(MockMvcRequestBuilders.post("/bidList/validate")
+                           .contentType(MediaType.APPLICATION_JSON)
+                           .accept(MediaType.APPLICATION_JSON)
+                           .param("account", account)
+                           .param("type", type)
+                           .param("bidQuantity", String.valueOf(bidQuantity)))
+                           .andDo(print())
+                           .andExpect(view().name("bidList/add"));
+
+        MvcResult mvcResult = result.andExpect(status().isOk()).andReturn();
+        String htmlResponse = mvcResult.getResponse().getContentAsString();
+        assertTrue(htmlResponse.contains("must be greater than or equal to 1"));
+
+        List<BidList> bidListsAfterAdd;
         bidListsAfterAdd = bidListRepository.findAll();
 
         assertEquals(bidListsAfterAdd.size(),bidListsBeforeAdd.size());
@@ -106,10 +106,10 @@ class BidListControllerTestIT {
         Double bidQuantity = 1d;
 
         //GIVEN
-        bidList bidListTest = new bidList(bidListId,account,type,bidQuantity);
+        BidList bidListTest = new BidList(bidListId,account,type,bidQuantity);
         bidListRepository.save(bidListTest);
 
-        List<bidList> bidListsBeforeDelete;
+        List<BidList> bidListsBeforeDelete;
         bidListsBeforeDelete = bidListRepository.findAll();
 
         // WHEN
@@ -121,7 +121,7 @@ class BidListControllerTestIT {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/bidList/list"));
 
-        List<bidList> bidListsAfterDelete;
+        List<BidList> bidListsAfterDelete;
         bidListsAfterDelete = bidListRepository.findAll();
 
         assertEquals(bidListsAfterDelete.size(),bidListsBeforeDelete.size()-1);
@@ -137,10 +137,10 @@ class BidListControllerTestIT {
         Double bidQuantity = 1d;
 
         //GIVEN
-        bidList bidListTest = new bidList(bidListId,account,type,bidQuantity);
+        BidList bidListTest = new BidList(bidListId,account,type,bidQuantity);
         bidListRepository.save(bidListTest);
 
-        List<bidList> bidListsBeforeDelete;
+        List<BidList> bidListsBeforeDelete;
         bidListsBeforeDelete = bidListRepository.findAll();
 
         // WHEN
@@ -155,7 +155,7 @@ class BidListControllerTestIT {
         } catch (Exception e) {
             assertTrue(e.getMessage().contains("Invalid bid Id:999"));
         }
-        List<bidList> bidListsAfterDelete;
+        List<BidList> bidListsAfterDelete;
         bidListsAfterDelete = bidListRepository.findAll();
 
         assertEquals(bidListsAfterDelete.size(),bidListsBeforeDelete.size());

@@ -1,6 +1,6 @@
 package com.nnk.springboot.UT;
 
-import com.nnk.springboot.domain.bidList;
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -42,10 +42,10 @@ class BidListControllerTest {
     @Test
     void listBidList() throws Exception{
 
-        List<bidList> bidLists = new ArrayList<>();
+        List<BidList> bidLists = new ArrayList<>();
 
         //GIVEN
-        bidList bidListTest = new bidList(account,type,bidQuantity);
+        BidList bidListTest = new BidList(account,type,bidQuantity);
         bidLists.add(bidListTest);
         Mockito.when(bidListRepository.findAll()).thenReturn(bidLists);
 
@@ -76,8 +76,8 @@ class BidListControllerTest {
     void validateBidList_CorrectBidList() throws Exception{
 
         //GIVEN : Give a new bidList
-        bidList bidListTest = new bidList(account,type,bidQuantity);
-        Mockito.when(bidListRepository.save(any(bidList.class))).thenReturn(bidListTest);
+        BidList bidListTest = new BidList(account,type,bidQuantity);
+        Mockito.when(bidListRepository.save(any(BidList.class))).thenReturn(bidListTest);
         Mockito.when(bidListRepository.findById(anyInt())).thenReturn(Optional.of(bidListTest));
 
         //WHEN //THEN return the list page
@@ -97,7 +97,7 @@ class BidListControllerTest {
     void updateBidList_BidListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting bidList
-        bidList bidListTest = new bidList(account,type,bidQuantity);
+        BidList bidListTest = new BidList(account,type,bidQuantity);
         Mockito.when(bidListRepository.findById(anyInt())).thenReturn(Optional.of(bidListTest));
 
         //WHEN //THEN return the update page
@@ -114,7 +114,7 @@ class BidListControllerTest {
     void DeleteBidList_BidListListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
-        bidList bidListTest = new bidList(account,type,bidQuantity);
+        BidList bidListTest = new BidList(account,type,bidQuantity);
         Mockito.when(bidListRepository.findById(anyInt())).thenReturn(Optional.of(bidListTest));
 
         //WHEN //THEN return the list page
@@ -125,6 +125,6 @@ class BidListControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/bidList/list"));
 
-        Mockito.verify(bidListRepository,Mockito.times(1)).delete(any(bidList.class));
+        Mockito.verify(bidListRepository,Mockito.times(1)).delete(any(BidList.class));
     }
 }

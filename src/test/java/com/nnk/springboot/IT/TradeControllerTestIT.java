@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Timestamp;
@@ -36,7 +38,7 @@ class TradeControllerTestIT {
 
     /* Add validate trade */
     @Test
-    void addTrade_ValidateTrade() throws Exception{
+    void addTrade_ValidateTrade() throws Exception {
 
         List<Trade> tradesBeforeAdd;
         tradesBeforeAdd = tradeRepository.findAll();
@@ -62,12 +64,12 @@ class TradeControllerTestIT {
         List<Trade> tradesAfterAdd;
         tradesAfterAdd = tradeRepository.findAll();
 
-        assertEquals(tradesAfterAdd.size(),tradesBeforeAdd.size()+1);
+        assertEquals(tradesAfterAdd.size(), tradesBeforeAdd.size() + 1);
     }
 
     /* Validate non compliant buyQuantity */
     @Test
-    void validateTrade_NonCompliant_buyQuantity() throws Exception{
+    void validateTrade_NonCompliant_buyQuantity() throws Exception {
 
         List<Trade> tradesBeforeAdd;
         tradesBeforeAdd = tradeRepository.findAll();
@@ -79,43 +81,44 @@ class TradeControllerTestIT {
         Double sellQuantity = 200d;
 
         //GIVEN
-        Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);
+        Trade tradeTest = new Trade(account, type, buyQuantity, sellQuantity);
         tradeTest.setCreationDate(creationDate);
 
         //WHEN //THEN stay to add page
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/trade/validate")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .param("account", account)
-                    .param("type", type)
-                    .param("buyQuantity", String.valueOf(buyQuantity))
-                    .param("sellQuantity", String.valueOf(sellQuantity)))
-                    .andDo(print())
-                    .andExpect(view().name("trade/add"));
-            tradeRepository.save(tradeTest);
-        }
-        catch (Exception e){
-            assertTrue(e.getMessage().contains("must be greater than or equal to 1"));
-        }
+
+        ResultActions result =
+                mockMvc.perform(MockMvcRequestBuilders.post("/trade/validate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .param("account", account)
+                        .param("type", type)
+                        .param("buyQuantity", String.valueOf(buyQuantity))
+                        .param("sellQuantity", String.valueOf(sellQuantity)))
+                        .andDo(print())
+                        .andExpect(view().name("trade/add"));
+
+        MvcResult mvcResult = result.andExpect(status().isOk()).andReturn();
+        String htmlResponse = mvcResult.getResponse().getContentAsString();
+        assertTrue(htmlResponse.contains("must be greater than or equal to 1"));
+
         List<Trade> tradesAfterAdd;
         tradesAfterAdd = tradeRepository.findAll();
 
-        assertEquals(tradesAfterAdd.size(),tradesBeforeAdd.size());
+        assertEquals(tradesAfterAdd.size(), tradesBeforeAdd.size());
     }
 
     /*------------------------------ Get ------------------------------*/
 
     @Test
-    void deleteTrade_ExistingTrade() throws Exception{
+    void deleteTrade_ExistingTrade() throws Exception {
 
         String account = "AccountTest";
         String type = "TypeTest";
-        Double buyQuantity = 500d;    
+        Double buyQuantity = 500d;
         Double sellQuantity = 200d;
 
         //GIVEN
-        Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);
+        Trade tradeTest = new Trade(account, type, buyQuantity, sellQuantity);
         tradeRepository.save(tradeTest);
 
         List<Trade> tradesBeforeDelete;
@@ -133,11 +136,11 @@ class TradeControllerTestIT {
         List<Trade> tradesAfterDelete;
         tradesAfterDelete = tradeRepository.findAll();
 
-        assertEquals(tradesAfterDelete.size(),tradesBeforeDelete.size()-1);
+        assertEquals(tradesAfterDelete.size(), tradesBeforeDelete.size() - 1);
     }
 
     @Test
-    void deleteTrade_Non_ExistingTrade() throws Exception{
+    void deleteTrade_Non_ExistingTrade() throws Exception {
 
         String account = "AccountTest";
         String type = "TypeTest";
@@ -145,7 +148,7 @@ class TradeControllerTestIT {
         Double sellQuantity = 200d;
 
         //GIVEN
-        Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);
+        Trade tradeTest = new Trade(account, type, buyQuantity, sellQuantity);
         tradeRepository.save(tradeTest);
 
         List<Trade> tradesBeforeDelete;
@@ -166,6 +169,6 @@ class TradeControllerTestIT {
         List<Trade> tradesAfterDelete;
         tradesAfterDelete = tradeRepository.findAll();
 
-        assertEquals(tradesAfterDelete.size(),tradesBeforeDelete.size());
+        assertEquals(tradesAfterDelete.size(), tradesBeforeDelete.size());
     }
 }

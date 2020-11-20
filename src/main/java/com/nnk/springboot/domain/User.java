@@ -37,7 +37,6 @@ public class User {
                 @NotBlank(message = "Password is mandatory") String password,
                 @NotBlank(message = "FullName is mandatory") String fullname,
                 @NotBlank(message = "Role is mandatory") String role) {
-        this.id = id;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
