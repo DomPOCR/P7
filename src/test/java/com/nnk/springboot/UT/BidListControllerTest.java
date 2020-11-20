@@ -37,6 +37,7 @@ class BidListControllerTest {
     String account = "AccountTest";
     String type = "TypeTest";
     Double bidQuantity = 500d;
+    Double incorrectBidQuantity = 0d;
 
     /* Show the list of BidList */
     @Test
@@ -94,7 +95,7 @@ class BidListControllerTest {
 
     /* Display bidList updating form */
     @Test
-    void updateBidList_BidListIsReturn() throws Exception{
+    void updateBidList_ShowUpdateForm() throws Exception{
 
         //GIVEN : Give an exiting bidList
         BidList bidListTest = new BidList(account,type,bidQuantity);
@@ -109,9 +110,49 @@ class BidListControllerTest {
                 .andExpect(view().name("bidList/update"));
     }
 
+    /* Update an existing bidList and return to the list    */
+    @Test
+    public void updateBidList_CorrectBidList() throws Exception {
+
+        //GIVEN : Give an exiting bidList
+        BidList bidListTest = new BidList(account,type,bidQuantity);
+        Mockito.when(bidListRepository.findById(anyInt())).thenReturn(Optional.of(bidListTest));
+
+        //WHEN //THEN return the list page
+        mockMvc.perform(post("/bidList/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("account", account)
+                .param("type", type)
+                .param("bidQuantity", String.valueOf(bidQuantity)))
+                .andDo(print())
+                .andExpect(view().name("redirect:/bidList/list"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    /* Update an incorrect bidList and stay to update    */
+    @Test
+    public void updateBidList_IncorrectBidList() throws Exception {
+
+        //GIVEN : Give an exiting bidList
+        BidList bidListTest = new BidList(account,type,bidQuantity);
+        Mockito.when(bidListRepository.findById(anyInt())).thenReturn(Optional.of(bidListTest));
+
+        //WHEN //THEN return the update page
+        mockMvc.perform(post("/bidList/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("account", account)
+                .param("type", type)
+                .param("bidQuantity", String.valueOf(incorrectBidQuantity)))
+                .andDo(print())
+                .andExpect(view().name("bidList/update"))
+                .andExpect(status().isOk());
+    }
+
     /* Display delete a bidList */
     @Test
-    void DeleteBidList_BidListListIsReturn() throws Exception{
+    void deleteBidList_BidListListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
         BidList bidListTest = new BidList(account,type,bidQuantity);

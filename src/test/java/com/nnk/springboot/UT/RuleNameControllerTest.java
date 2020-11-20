@@ -1,6 +1,5 @@
 package com.nnk.springboot.UT;
 
-
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import org.junit.jupiter.api.Test;
@@ -36,6 +35,7 @@ class RuleNameControllerTest {
 
     // Données de test
     String name = "NameTest";
+    String incorrectName = null;
     String description = "DescriptionTest";
     String json = "JsonTest";
     String template = "TemplateTest";
@@ -101,7 +101,7 @@ class RuleNameControllerTest {
 
     /* Display ruleName updating form */
     @Test
-    void updateRuleName_RuleNameIsReturn() throws Exception{
+    void updateRuleName_ShowUpdateForm() throws Exception{
 
         //GIVEN : Give an exiting ruleName
         RuleName ruleNameTest = new RuleName(name,description,json,template,sqlStr,sqlPart);
@@ -116,9 +116,55 @@ class RuleNameControllerTest {
                 .andExpect(view().name("ruleName/update"));
     }
 
+    /* Update an existing ruleName and return to the list    */
+    @Test
+    public void updateRuleName_CorrectRuleName() throws Exception {
+
+        //GIVEN : Give an exiting ruleName
+        RuleName ruleNameTest = new RuleName(name,description,json,template,sqlStr,sqlPart);
+        Mockito.when(ruleNameRepository.findById(anyInt())).thenReturn(Optional.of(ruleNameTest));
+
+        //WHEN //THEN return the list page
+        mockMvc.perform(post("/ruleName/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("name", name)
+                .param("description", description)
+                .param("json", json)
+                .param("template", template)
+                .param("sqlStr", sqlStr)
+                .param("sqlPart",sqlPart))
+                .andDo(print())
+                .andExpect(view().name("redirect:/ruleName/list"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    /* Update an incorrect ruleName and stay to update    */
+    @Test
+    public void updateRuleName_IncorrectRuleName() throws Exception {
+
+        //GIVEN : Give an exiting ruleName
+        RuleName ruleNameTest = new RuleName(name,description,json,template,sqlStr,sqlPart);
+        Mockito.when(ruleNameRepository.findById(anyInt())).thenReturn(Optional.of(ruleNameTest));
+
+        //WHEN //THEN return the update page
+        mockMvc.perform(post("/ruleName/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("name", incorrectName)
+                .param("description", description)
+                .param("json", json)
+                .param("template", template)
+                .param("sqlStr", sqlStr)
+                .param("sqlPart",sqlPart))
+                .andDo(print())
+                .andExpect(view().name("ruleName/update"))
+                .andExpect(status().isOk());
+    }
+    
     /* Display delete a ruleName */
     @Test
-    void DeleteRuleName_RuleNameListIsReturn() throws Exception{
+    void deleteRuleName_RuleNameListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
         RuleName ruleNameTest = new RuleName(name,description,json,template,sqlStr,sqlPart);

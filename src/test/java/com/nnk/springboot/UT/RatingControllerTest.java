@@ -38,6 +38,7 @@ class RatingControllerTest {
     String sandPRating = "SandPRatingTest";
     String fitchRating = "FitchRatingTest";
     Integer orderNumber = 1;
+    Integer incorrectOrderNumber= null;
 
     /* Show the list of Rating */
     @Test
@@ -97,7 +98,7 @@ class RatingControllerTest {
 
     /* Display rating updating form */
     @Test
-    void updateRating_RatingIsReturn() throws Exception{
+    void updateRating_ShowUpdateForm() throws Exception{
 
         //GIVEN : Give an exiting rating
         Rating ratingTest = new Rating(moodysRating,sandPRating,fitchRating,orderNumber);
@@ -112,9 +113,51 @@ class RatingControllerTest {
                 .andExpect(view().name("rating/update"));
     }
 
+    /* Update an existing Rating and return to the list    */
+    @Test
+    public void updateRating_CorrectRating() throws Exception {
+
+        //GIVEN : Give an exiting Rating
+        Rating ratingTest = new Rating(moodysRating,sandPRating,fitchRating,orderNumber);
+        Mockito.when(ratingRepository.findById(anyInt())).thenReturn(Optional.of(ratingTest));
+
+        //WHEN //THEN return the list page
+        mockMvc.perform(post("/rating/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("moodysRating",moodysRating)
+                .param("sandPRating", sandPRating)
+                .param("fitchRating", fitchRating)
+                .param("orderNumber", String.valueOf(orderNumber)))
+                .andDo(print())
+                .andExpect(view().name("redirect:/rating/list"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    /* Update an incorrect rating and stay to update    */
+    @Test
+    public void updateRating_IncorrectRating() throws Exception {
+
+        //GIVEN : Give an exiting rating
+        Rating ratingTest = new Rating(moodysRating,sandPRating,fitchRating,orderNumber);
+        Mockito.when(ratingRepository.findById(anyInt())).thenReturn(Optional.of(ratingTest));
+
+        //WHEN //THEN return the update page
+        mockMvc.perform(post("/rating/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("moodysRating",moodysRating)
+                .param("sandPRating", sandPRating)
+                .param("fitchRating", fitchRating)
+                .param("orderNumber", String.valueOf(incorrectOrderNumber)))
+                .andDo(print())
+                .andExpect(view().name("rating/update"))
+                .andExpect(status().isOk());
+    }
+    
     /* Display delete a rating */
     @Test
-    void DeleteRating_RatingListIsReturn() throws Exception{
+    void deleteRating_RatingListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
         Rating ratingTest = new Rating(moodysRating,sandPRating,fitchRating,orderNumber);

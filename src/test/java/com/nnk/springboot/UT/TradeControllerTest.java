@@ -41,6 +41,7 @@ class TradeControllerTest {
     String type = "TypeTest";
     Double buyQuantity = 500d;
     Double sellQuantity = 200d;
+    Double incorrectSellQuantity = 0d;
 
     /* Show the list of trade */
     @Test
@@ -76,7 +77,7 @@ class TradeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("trade/add"));
     }
-
+    
     /* Validate correct trade */
     @Test
     void validateTrade_CorrectTrade() throws Exception{
@@ -103,11 +104,11 @@ class TradeControllerTest {
 
     /* Display trade updating form */
     @Test
-    void updateTrade_TradeIsReturn() throws Exception{
+    void updateTrade_ShowUpdateForm() throws Exception{
 
         //GIVEN : Give an exiting trade
         Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);
-                
+
         Mockito.when(tradeRepository.findById(anyInt())).thenReturn(Optional.of(tradeTest));
 
         //WHEN //THEN return the update page
@@ -119,9 +120,51 @@ class TradeControllerTest {
                 .andExpect(view().name("trade/update"));
     }
 
+    /* Update an existing trade and return to the list    */
+    @Test
+    public void updateTrade_CorrectTrade() throws Exception {
+
+        //GIVEN : Give an exiting trade
+        Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);
+        Mockito.when(tradeRepository.findById(anyInt())).thenReturn(Optional.of(tradeTest));
+
+        //WHEN //THEN return the list page
+        mockMvc.perform(post("/trade/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("account", account)
+                .param("type", type)
+                .param("buyQuantity", String.valueOf(buyQuantity))
+                .param("sellQuantity", String.valueOf(sellQuantity)))
+                .andDo(print())
+                .andExpect(view().name("redirect:/trade/list"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    /* Update an incorrect trade and stay to update    */
+    @Test
+    public void updateTrade_IncorrectTrade() throws Exception {
+
+        //GIVEN : Give an exiting trade
+        Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);
+        Mockito.when(tradeRepository.findById(anyInt())).thenReturn(Optional.of(tradeTest));
+
+        //WHEN //THEN return the update page
+        mockMvc.perform(post("/trade/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("account", account)
+                .param("type", type)
+                .param("buyQuantity", String.valueOf(buyQuantity))
+                .param("sellQuantity", String.valueOf(incorrectSellQuantity)))
+                .andDo(print())
+                .andExpect(view().name("trade/update"))
+                .andExpect(status().isOk());
+    }
+
     /* Display delete a trade */
     @Test
-    void DeleteTrade_TradeListIsReturn() throws Exception{
+    void deleteTrade_TradeListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
         Trade tradeTest = new Trade(account,type,buyQuantity,sellQuantity);

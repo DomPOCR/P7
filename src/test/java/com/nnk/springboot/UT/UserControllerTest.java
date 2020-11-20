@@ -36,6 +36,7 @@ public class UserControllerTest {
     // Données de test
 
     String username = "usernameTest";
+    String IncorrectUsername = null;
     String password = "Password1@";
     String fullname = "fullnameTest";
     String role = "USER";
@@ -98,7 +99,7 @@ public class UserControllerTest {
 
     /* Display user updating form */
     @Test
-    void updateUser_UserIsReturn() throws Exception{
+    void updateUser_ShowUpdateForm() throws Exception{
 
         //GIVEN : Give an exiting user
         User userTest = new User(username,password,fullname,role);
@@ -113,9 +114,51 @@ public class UserControllerTest {
                 .andExpect(view().name("user/update"));
     }
 
+    /* Update an existing user and return to the list    */
+    @Test
+    public void updateUser_CorrectUser() throws Exception {
+
+        //GIVEN : Give an exiting user
+        User userTest = new User(username,password,fullname,role);
+        Mockito.when(userRepository.findById(anyInt())).thenReturn(Optional.of(userTest));
+
+        //WHEN //THEN return the list page
+        mockMvc.perform(post("/user/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("fullname", fullname)
+                .param("username", username)
+                .param("password", password)
+                .param("role",role))
+                .andDo(print())
+                .andExpect(view().name("redirect:/user/list"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    /* Update an incorrect user and stay to update    */
+    @Test
+    public void updateUser_IncorrectUser() throws Exception {
+
+        //GIVEN : Give an exiting user
+        User userTest = new User(username,password,fullname,role);
+        Mockito.when(userRepository.findById(anyInt())).thenReturn(Optional.of(userTest));
+
+        //WHEN //THEN return the update page
+        mockMvc.perform(post("/user/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("fullname", fullname)
+                .param("username", IncorrectUsername)
+                .param("password", password)
+                .param("role",role))
+                .andDo(print())
+                .andExpect(view().name("user/update"))
+                .andExpect(status().isOk());
+    }
+    
     /* Display delete a user */
     @Test
-    void DeleteUser_UserListIsReturn() throws Exception{
+    void deleteUser_UserListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
         User userTest = new User(username,password,fullname,role);

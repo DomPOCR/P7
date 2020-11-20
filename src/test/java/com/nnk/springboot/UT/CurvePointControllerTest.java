@@ -39,6 +39,7 @@ class CurvePointControllerTest {
     Integer curveId = 1;
     Double term = 20d;
     Double value = 30d;
+    Double incorrectValue = 0d;
 
     /* Show the list of curvePoint */
     @Test
@@ -101,7 +102,7 @@ class CurvePointControllerTest {
 
     /* Display curvePoint updating form */
     @Test
-    void updateCurvePoint_curvePointIsReturn() throws Exception{
+    void updateCurvePoint__ShowUpdateForm() throws Exception{
 
         //GIVEN : Give an exiting curvePoint
         CurvePoint curvePointTest = new CurvePoint(curveId,term,value);
@@ -116,9 +117,48 @@ class CurvePointControllerTest {
                 .andExpect(view().name("curvePoint/update"));
     }
 
+    /* Update an existing curvePoint and return to the list    */
+    @Test
+    public void updateCurvePoint_CorrectCurvePoint() throws Exception {
+
+        //GIVEN : Give an exiting curvePoint
+        CurvePoint curvePointTest = new CurvePoint(curveId,term,value);
+        Mockito.when(curvePointRepository.findById(anyInt())).thenReturn(Optional.of(curvePointTest));
+
+        //WHEN //THEN return the list page
+        mockMvc.perform(post("/curvePoint/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("curveId", String.valueOf(curveId))
+                .param("term", String.valueOf(term))
+                .param("value", String.valueOf(value)))
+                .andDo(print())
+                .andExpect(view().name("redirect:/curvePoint/list"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    /* Update an incorrect curvePoint and stay to update    */
+    @Test
+    public void updateCurvePoint_IncorrectCurvePoint() throws Exception {
+
+        //GIVEN : Give an exiting curvePoint
+        CurvePoint curvePointTest = new CurvePoint(curveId,term,value);
+        Mockito.when(curvePointRepository.findById(anyInt())).thenReturn(Optional.of(curvePointTest));
+
+        //WHEN //THEN return the update page
+        mockMvc.perform(post("/curvePoint/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("curveId", String.valueOf(curveId))
+                .param("term", String.valueOf(term))
+                .param("value", String.valueOf(incorrectValue)))
+                .andDo(print())
+                .andExpect(view().name("curvePoint/update"))
+                .andExpect(status().isOk());
+    }
     /* Display delete a curvePoint */
     @Test
-    void DeleteCurvePoint_CurvePointListIsReturn() throws Exception{
+    void deleteCurvePoint_CurvePointListIsReturn() throws Exception{
 
         //GIVEN : Give an exiting Person
         CurvePoint curvePointTest = new CurvePoint(curveId,term,value);

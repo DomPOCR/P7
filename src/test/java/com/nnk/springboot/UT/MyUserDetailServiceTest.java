@@ -1,6 +1,5 @@
 package com.nnk.springboot.UT;
 
-import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.MyUserDetailService;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,7 @@ public class MyUserDetailServiceTest {
     }
 
     @Test
-    void loadUserByUsernameMissing() {
+    void loadUserByUsernameIsEmpty() {
 
 
         //GIVEN
@@ -50,4 +49,17 @@ public class MyUserDetailServiceTest {
         assertThrows(UsernameNotFoundException.class, () -> myUserDetailService.loadUserByUsername(username));
     }
 
+    @Test
+    void loadUserByUsernameNotFound() {
+
+
+        //GIVEN
+        String username = "username9999";
+
+        //WHEN
+        Mockito.when(userRepository.findByUsername(username)).thenReturn(null);
+
+        //THEN return Exception
+        assertThrows(UsernameNotFoundException.class, () -> myUserDetailService.loadUserByUsername(username));
+    }
 }
