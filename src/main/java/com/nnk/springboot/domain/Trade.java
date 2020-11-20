@@ -14,59 +14,59 @@ public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "TINYINT")
-    Integer tradeId ;
+    Integer tradeId;
 
-    @Column(name="account")
+    @Column(name = "account")
     @NotNull
     @NotBlank(message = "Trade is mandatory")
     private String account;
 
-    @Column(name="type")
+    @Column(name = "type")
     @NotNull
     @NotBlank(message = "Type is mandatory")
     private String type;
 
-    @Column(name="buyQuantity")
+    @Column(name = "buyQuantity")
     @NotNull
     @Min(value = 1, message = "must be greater than or equal to 1")
     private Double buyQuantity;
 
-    @Column(name="sellQuantity")
+    @Column(name = "sellQuantity")
     @NotNull
     @Min(value = 1, message = "must be greater than or equal to 1")
     private Double sellQuantity;
 
-    @Column(name="buyPrice")
+    @Column(name = "buyPrice")
     private Double buyPrice;
-    @Column(name="sellPrice")
+    @Column(name = "sellPrice")
     private Double sellPrice;
-    @Column(name="benchmark",length = 125)
+    @Column(name = "benchmark", length = 125)
     private String benchmark;
-    @Column(name="tradeDate")
+    @Column(name = "tradeDate")
     private Timestamp tradeDate;
-    @Column(name="security",length = 125)
+    @Column(name = "security", length = 125)
     private String security;
-    @Column(name="status",length = 10)
+    @Column(name = "status", length = 10)
     private String status;
-    @Column(name="trader",length = 125)
+    @Column(name = "trader", length = 125)
     private String trader;
-    @Column(name="book",length = 125)
+    @Column(name = "book", length = 125)
     private String book;
-    @Column(name="creationName",length = 125)
+    @Column(name = "creationName", length = 125)
     private String creationName;
-    @Column(name="creationDate")
+    @Column(name = "creationDate")
     private Timestamp creationDate;
-    @Column(name="revisionName",length = 125)
+    @Column(name = "revisionName", length = 125)
     private String revisionName;
-    @Column(name="revisionDate")
+    @Column(name = "revisionDate")
     private Timestamp revisionDate;
-    @Column(name="dealName",length = 125)
+    @Column(name = "dealName", length = 125)
     private String dealName;
-    @Column(name="dealType",length = 125)
+    @Column(name = "dealType", length = 125)
     private String dealType;
-    @Column(name="sourceListId",length = 125)
+    @Column(name = "sourceListId", length = 125)
     private String sourceListId;
-    @Column(name="side",length = 125)
+    @Column(name = "side", length = 125)
     private String side;
 
     public Trade() {
@@ -157,11 +157,11 @@ public class Trade {
     }
 
     public Timestamp getTradeDate() {
-        return tradeDate;
+        return new Timestamp(tradeDate.getTime());
     }
 
     public void setTradeDate(Timestamp tradeDate) {
-        this.tradeDate = tradeDate;
+        this.tradeDate = new Timestamp(tradeDate.getTime());
     }
 
     public String getSecurity() {
@@ -205,11 +205,11 @@ public class Trade {
     }
 
     public Timestamp getCreationDate() {
-        return creationDate;
+        return new Timestamp(creationDate.getTime());
     }
 
     public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = new Timestamp(creationDate.getTime());
     }
 
     public String getRevisionName() {
@@ -221,11 +221,11 @@ public class Trade {
     }
 
     public Timestamp getRevisionDate() {
-        return revisionDate;
+        return new Timestamp(revisionDate.getTime());
     }
 
     public void setRevisionDate(Timestamp revisionDate) {
-        this.revisionDate = revisionDate;
+        this.revisionDate = new Timestamp(revisionDate.getTime());
     }
 
     public String getDealName() {

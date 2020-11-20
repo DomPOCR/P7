@@ -15,73 +15,73 @@ public class BidList {
     @Column(columnDefinition = "TINYINT")
     private Integer bidListId;
 
-    @Column(name="account",length = 30)
+    @Column(name = "account", length = 30)
     @NotNull
     @NotBlank(message = "Account is mandatory")
     private String account;
 
-    @Column(name="type",length = 30)
+    @Column(name = "type", length = 30)
     @NotNull
     @NotBlank(message = "Type is mandatory")
     private String type;
 
-    @Column(name="bidQuantity")
+    @Column(name = "bidQuantity")
     @NotNull
-    @Min(value=1,message = "must be greater than or equal to 1")
+    @Min(value = 1, message = "must be greater than or equal to 1")
     private Double bidQuantity;
 
-    @Column(name="askQuantity")
+    @Column(name = "askQuantity")
     private Double askQuantity;
 
-    @Column(name="bid")
+    @Column(name = "bid")
     private Double bid;
 
-    @Column(name="ask")
+    @Column(name = "ask")
     private Double ask;
 
-    @Column(name="benchmark",length = 125)
+    @Column(name = "benchmark", length = 125)
     private String benchmark;
 
-    @Column(name="bidListDate")
+    @Column(name = "bidListDate")
     private Timestamp bidListDate;
 
-    @Column(name="commentary",length = 125)
+    @Column(name = "commentary", length = 125)
     private String commentary;
 
-    @Column(name="security",length = 125)
+    @Column(name = "security", length = 125)
     private String security;
 
-    @Column(name="status",length = 10)
+    @Column(name = "status", length = 10)
     private String status;
 
-    @Column(name="trader",length = 125)
+    @Column(name = "trader", length = 125)
     private String trader;
 
-    @Column(name="book",length = 125)
+    @Column(name = "book", length = 125)
     private String book;
 
-    @Column(name="creationName",length = 125)
+    @Column(name = "creationName", length = 125)
     private String creationName;
 
-    @Column(name="creationDate")
+    @Column(name = "creationDate")
     private Timestamp creationDate;
 
-    @Column(name="revisionName",length = 125)
+    @Column(name = "revisionName", length = 125)
     private String revisionName;
 
-    @Column(name="revisionDate",length = 125)
+    @Column(name = "revisionDate", length = 125)
     private Timestamp revisionDate;
 
-    @Column(name="dealName",length = 125)
+    @Column(name = "dealName", length = 125)
     private String dealName;
 
-    @Column(name="dealType",length = 125)
+    @Column(name = "dealType", length = 125)
     private String dealType;
 
-    @Column(name="sourceListId",length = 125)
+    @Column(name = "sourceListId", length = 125)
     private String sourceListId;
 
-    @Column(name="side",length = 125)
+    @Column(name = "side", length = 125)
     private String side;
 
     @Override
@@ -180,12 +180,10 @@ public class BidList {
     }
 
     public Timestamp getBidListDate() {
-        //return bidListDate;
         return new Timestamp(bidListDate.getTime());
     }
 
     public void setBidListDate(Timestamp bidListDate) {
-        //this.bidListDate = bidListDate;
         this.bidListDate = new Timestamp(bidListDate.getTime());
     }
 
@@ -238,11 +236,11 @@ public class BidList {
     }
 
     public Timestamp getCreationDate() {
-        return creationDate;
+        return new Timestamp(creationDate.getTime());
     }
 
     public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = new Timestamp(creationDate.getTime());
     }
 
     public String getRevisionName() {
@@ -254,11 +252,11 @@ public class BidList {
     }
 
     public Timestamp getRevisionDate() {
-        return revisionDate;
+        return new Timestamp(revisionDate.getTime());
     }
 
     public void setRevisionDate(Timestamp revisionDate) {
-        this.revisionDate = revisionDate;
+        this.revisionDate = new Timestamp(revisionDate.getTime());
     }
 
     public String getDealName() {

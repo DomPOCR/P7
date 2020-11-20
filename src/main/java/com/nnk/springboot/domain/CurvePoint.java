@@ -13,26 +13,26 @@ public class CurvePoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "TINYINT")
-    private Integer id ;
+    private Integer id;
 
-    @Column(name="CurveId",columnDefinition = "TINYINT")
+    @Column(name = "CurveId", columnDefinition = "TINYINT")
     @NotNull(message = "must be not null")
-    private Integer curveId ;
+    private Integer curveId;
 
-    @Column(name="asOfDate")
-    private Timestamp asOfDate ;
+    @Column(name = "asOfDate")
+    private Timestamp asOfDate;
 
-    @Column(name="term")
+    @Column(name = "term")
     @NotNull(message = "must be not null")
-    private Double term ;
+    private Double term;
 
     @Column(name = "value")
     @NotNull(message = "must be not null")
-    @Min(value=1, message = "must be greater than or equal to 1")
-    private Double value ;
+    @Min(value = 1, message = "must be greater than or equal to 1")
+    private Double value;
 
-    @Column(name="creationDate")
-    private Timestamp creationDate ;
+    @Column(name = "creationDate")
+    private Timestamp creationDate;
 
     public CurvePoint() {
     }
@@ -84,13 +84,13 @@ public class CurvePoint {
     }
 
     public Timestamp getAsOfDate() {
-        return asOfDate;
+        return new Timestamp(asOfDate.getTime());
     }
 
     public void setAsOfDate(Timestamp asOfDate) {
-        this.asOfDate = asOfDate;
+        this.asOfDate = new Timestamp(asOfDate.getTime());
+        ;
     }
-
 
     public Double getTerm() {
         return term;
@@ -109,10 +109,10 @@ public class CurvePoint {
     }
 
     public Timestamp getCreationDate() {
-        return creationDate;
+        return new Timestamp(creationDate.getTime());
     }
 
     public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = new Timestamp(creationDate.getTime());
     }
 }

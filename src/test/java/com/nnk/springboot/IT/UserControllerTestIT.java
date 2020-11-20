@@ -136,7 +136,7 @@ class UserControllerTestIT {
     @Test
     void deleteUser_Non_ExistingUser() throws Exception{
 
-        List<User> userListBeforeDelete = new ArrayList<>();
+        List<User> userListBeforeDelete ;
         userListBeforeDelete = userRepository.findAll();
 
         //GIVEN

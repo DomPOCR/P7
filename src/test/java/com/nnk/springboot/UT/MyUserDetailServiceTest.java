@@ -37,19 +37,17 @@ public class MyUserDetailServiceTest {
     }
 
     @Test
-    void loadUserByUsername() {
+    void loadUserByUsernameMissing() {
 
-        // Données de test
-
-        String username = "";
-        String password = "Password1@";
-        String fullname = "fullnameTest";
-        String role = "USER";
 
         //GIVEN
-        User userTest = new User(username, password, fullname, role);
+        String username = "";
+
+        //WHEN
         Mockito.when(userRepository.findByUsername(username)).thenReturn(null);
 
+        //THEN return Exception
         assertThrows(UsernameNotFoundException.class, () -> myUserDetailService.loadUserByUsername(username));
     }
+
 }

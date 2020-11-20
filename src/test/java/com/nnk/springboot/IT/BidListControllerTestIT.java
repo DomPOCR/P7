@@ -69,7 +69,6 @@ class BidListControllerTestIT {
         bidListsBeforeAdd = bidListRepository.findAll();
 
         //GIVEN
-        Integer bidListId = 1;
         String account = "AccountTest";
         String type = "TypeTest";
         Double bidQuantity = 0d;    /* Must be >=1 */

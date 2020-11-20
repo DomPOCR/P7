@@ -70,7 +70,7 @@ class CurveControllerTestIT {
         curvePointsBeforeAdd = curvePointRepository.findAll();
 
         //GIVEN
-        Integer id = 1;
+
         Integer curveId = 1;
         Double term = 20d;
         Double value = 0d;    /* Must be >=1 */
