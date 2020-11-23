@@ -65,7 +65,7 @@ public class RuleNameController {
      * @param result   technical result
      * @param model    public interface model, model can be accessed and attributes
      *                 can be added
-     * @return
+     * @return ruleName/list if OK or stay ruleName/add if KO
      */
     @PostMapping("/ruleName/validate")
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {

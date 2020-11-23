@@ -52,7 +52,7 @@ public class TradeController {
      * Endpoint to display trade adding form
      *
      * @param trade the trade to be added
-     * @return
+     * @return trade/add
      */
     @GetMapping("/trade/add")
     public String addTradeForm(Trade trade) {
@@ -68,7 +68,7 @@ public class TradeController {
      * @param result   technical result
      * @param model    public interface model, model can be accessed and attributes
      *                 can be added
-     * @return
+     * @return trade/list if OK or stay trade/add if KO
      */
     @PostMapping("/trade/validate")
     public String validate(@Valid Trade trade, BindingResult result, Model model) {

@@ -46,7 +46,7 @@ public class UserController {
     /**
      * Endpoint to display user adding form
      * @param user the user to be added
-     * @return
+     * @return user/add
      */
     @GetMapping("/user/add")
     public String addUser(User user) {
@@ -60,7 +60,7 @@ public class UserController {
      * @param user, user to be added
      * @param result technical result
      * @param model public interface model, model can be accessed and attributes can be added
-     * @return
+     * @return user/list if OK or stay user/add if KO
      */
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {

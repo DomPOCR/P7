@@ -63,7 +63,7 @@ public class RatingController {
      * @param result  technical result
      * @param model   public interface model, model can be accessed and attributes
      *                can be added
-     * @return rating/list if OK
+     * @return rating/list if OK or stay rating/add if KO
      */
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {

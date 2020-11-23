@@ -65,7 +65,7 @@ public class CurveController {
      * @param result   technical result
      * @param model    public interface model, model can be accessed and attributes
      *                 can be added
-     * @return curvePoint/add
+     * @return curvePoint/list if OK or stay curvePoint/add if KO
      */
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {

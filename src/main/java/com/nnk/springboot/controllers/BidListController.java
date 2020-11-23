@@ -65,7 +65,7 @@ public class BidListController {
      * @param result   technical result
      * @param model    public interface model, model can be accessed and attributes
      *                 can be added
-     * @return
+     * @return bidList/list if OK or stay bidList/add if KO
      */
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bid, BindingResult result, Model model) {
