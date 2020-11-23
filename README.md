@@ -1,31 +1,48 @@
-# spring-boot
-## Technical:
+#Poseiden App
 
-1. Framework: Spring Boot v2.0.4
-2. Java 8
-3. Thymeleaf
-4. Bootstrap v.4.3.1
+Poseiden is a financial and trading web-app with this features :
+
+- BidLists
+- CurvePoints
+- Rules
+- Ratings
+- Trades
+
+This features are accessible for every connected User.
+
+It possible to add User with profil "Admin" or "User"
+
+Only Admin profil can manage users.
+
+## Getting Started
+
+- Endpoint : http://localhost:8080/
+- Actuator : http://localhost:8090/
+
+## Prerequisites
+###What things you need to install the software
+
+1. Framework: Spring Boot v2.3.1 RELEASE
+2. Java 1.8
+3. Maven 3.6.2
+4. Thymeleaf
+5. Mysql 8.0 : need to create a MySQL database "demoP7" on localhost.
 
 
-## Setup with Intellij IDE
-1. Create project from Initializr: File > New > project > Spring Initializr
-2. Add lib repository into pom.xml
-3. Add folders
-    - Source root: src/main/java
-    - View: src/main/resources
-    - Static: src/main/resource/static
-4. Create database with name "demo" as configuration in application.properties
-5. Run sql script to create table doc/data.sql
+## Installing
+1.  Run the sql command create.sql ou use MySql Workbench
 
-## Implement a Feature
-1. Create mapping domain class and place in package com.nnk.springboot.domain
-2. Create repository class and place in package com.nnk.springboot.repositories
-3. Create controller class and place in package com.nnk.springboot.controllers
-4. Create view files and place in src/main/resource/templates
+2.  User and password to access to the DB are stored in Environnement Variables
+     
+    -    Use application.properties to change :
+        
+            - **spring.datasource.username=${P7_USER_SQL}**
+            - **spring.datasource.password=${P6_PWD_SQL}**
 
-## Write Unit Test
-1. Create unit test and place in package com.nnk.springboot in folder test > java
+## Running App
+To start the application, execute :
 
-## Security
-1. Create user service to load user from  database and place in package com.nnk.springboot.services
-2. Add configuration class and place in package com.nnk.springboot.config
+java -jar **Poseiden-skeleton-0.0.1-SNAPSHOT.jar**
+
+## Testing
+mvn clean install mvn clean verify (generate tests and test report) mvn site (generate reportings)
